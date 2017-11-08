@@ -13,6 +13,7 @@ public class Client
         builder= (ActorBuilder) c.newInstance();
         ActorController controller=new ActorController();
         Actor actor=controller.construct(builder);
+        //todo toString方法没有复写
         actor.toString();
     }
 }

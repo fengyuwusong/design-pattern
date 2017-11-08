@@ -1,4 +1,4 @@
-package Bridge;
+package bridge;
 
 /**
  * 操作系统实现类：实现类接口

@@ -1,4 +1,4 @@
-package Bridge;
+package bridge;
 
 /**
  * 抽象图像类：抽象类

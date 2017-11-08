@@ -1,4 +1,4 @@
-package Bridge;
+package bridge;
 
 /**
  * JPG格式图像：扩充抽象类

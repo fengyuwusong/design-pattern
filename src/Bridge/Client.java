@@ -1,4 +1,4 @@
-package Bridge;
+package bridge;
 
 /**
  * Created by fengyuwusong on 2017/11/8 11:10.

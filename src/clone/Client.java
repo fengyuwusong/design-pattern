@@ -26,6 +26,7 @@ public class Client {
         System.out.println("内容：" + log_new.getContent());
 
 
+        System.out.println("判断地址是否相同：");
         System.out.println(log_previous==log_new);
         System.out.println(log_new.getContent()==log_previous.getContent());
         System.out.println(log_new.getDate()==log_previous.getDate());

@@ -1,4 +1,4 @@
-package nomalFactory;
+package normalFactory;
 
 /**
  * 日志记录器：具体产品类

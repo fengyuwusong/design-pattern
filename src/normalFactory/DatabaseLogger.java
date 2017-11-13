@@ -1,4 +1,4 @@
-package nomalFactory;
+package normalFactory;
 
 /**
  * Created by fengyuwusong on 2017/11/6 10:30.

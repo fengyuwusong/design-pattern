@@ -1,16 +1,19 @@
 package bridge;
 
+import util.PropertiesUtil;
+
 /**
  * Created by fengyuwusong on 2017/11/8 11:10.
  */
 public class Client {
-    public static void main(String[] args) {
-
-        //todo 改用yml配置文件实现
+    public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         Image image;
         ImageImp imageImp;
-        image=new PNGImage();
-        imageImp=new LinuxImp();
+        Class cImageType= Class.forName(PropertiesUtil.getString("/bridge.properties","imageType"));
+        Class cSystemClass=Class.forName(PropertiesUtil.getString("/bridge.properties","systemType"));
+
+        image= (Image) cImageType.newInstance();
+        imageImp= (ImageImp) cSystemClass.newInstance();
         image.setImageImp(imageImp);
         image.parseFile("png图片");
     }

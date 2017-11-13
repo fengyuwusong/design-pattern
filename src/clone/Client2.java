@@ -30,6 +30,8 @@ public class Client2 {
         System.out.println("附件下载：");
         log_previous.getAttachment().download();
 
+
+        System.out.println("判断地址是否相同：");
         System.out.println(log_previous==log_new);
         System.out.println(log_new.getContent()==log_previous.getContent());
         System.out.println(log_new.getDate()==log_previous.getDate());

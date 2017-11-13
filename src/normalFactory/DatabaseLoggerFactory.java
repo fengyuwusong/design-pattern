@@ -1,4 +1,4 @@
-package nomalFactory;
+package normalFactory;
 
 /**
  * 数据库日志记录器工厂类：具体工厂

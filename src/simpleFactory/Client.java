@@ -1,6 +1,6 @@
 package simpleFactory;
 
-import util.XMLUtil;
+import util.PropertiesUtil;
 
 /**
  * Created by fengyuwusong on 2017/11/6 9:00.
@@ -8,7 +8,7 @@ import util.XMLUtil;
 public class Client {
     public static void main(String[] args) {
         Chart chart;
-        chart=ChartFactory.getChart(XMLUtil.getName("/simpleFactory.xml"));
+        chart = ChartFactory.getChart(PropertiesUtil.getString("/simpleFactory.properties", "className"));
         chart.display();
 
     }

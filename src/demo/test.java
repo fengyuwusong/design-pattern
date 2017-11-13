@@ -1,6 +1,9 @@
 package demo;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+import java.util.Properties;
 
 /**
  * Created by fengyuwusong on 2017/10/31 21:12.
@@ -22,5 +25,18 @@ public class test {
 //        while((len=bis.read(arr))!=-1){
 //            System.out.println(new String(arr,"utf8"));
 //        }
+
+        InputStream is = test.class.getResourceAsStream("/demo.properties");
+        Properties properties = new Properties();
+        properties.load(is);
+        System.out.println(properties.getProperty("name"));
+        System.out.println(properties.getProperty("r.id"));
+        Iterator<String> iterator = properties.stringPropertyNames().iterator();
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            System.out.println(key + ":" + properties.getProperty(key));
+        }
+        is.close();
+
     }
 }

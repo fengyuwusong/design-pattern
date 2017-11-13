@@ -1,6 +1,6 @@
 package builder;
 
-import util.XMLUtil;
+import util.PropertiesUtil;
 
 /**
  * Created by fengyuwusong on 2017/11/8 9:53.
@@ -9,11 +9,10 @@ public class Client
 {
     public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         ActorBuilder builder;
-        Class c=Class.forName(XMLUtil.getName("/builder.xml"));
+        Class c=Class.forName(PropertiesUtil.getString("/builder.properties","className"));
         builder= (ActorBuilder) c.newInstance();
         ActorController controller=new ActorController();
         Actor actor=controller.construct(builder);
-        //todo toString方法没有复写
-        actor.toString();
+        System.out.println(actor.toString());
     }
 }

@@ -1,30 +1,41 @@
 package composite;
 
 /**
- * Created by fengyuwusong on 2017/11/8 15:05.
+ * Created by fengyuwusong on 2017/11/14 16:21.
  */
 public class Client {
     public static void main(String[] args) {
-        AbstractFile file1, file2, file3, file4, file5, folder1, folder2, folder3, folder4;
-        folder1 = new Folder("资料");
-        folder2 = new Folder("图像文件");
-        folder3 = new Folder("文本文件");
-        folder4 = new Folder("视频文件");
+        AbstractEducationOrganization headquarters, bj_jw_office, hnSchool, bj_xz_office, hn_jw_office, csTeachPoint, xtTeachPoint, hn_xz_office, cs_jw_office, cs_xz_office, xt_jw_office, xt_xz_office;
+        headquarters=new School("北京总部");
+        bj_jw_office=new Office("北京教务办公室");
+        bj_xz_office=new Office("北京行政办公室");
+        hnSchool=new School("湖南分校");
+        headquarters.include(bj_jw_office);
+        headquarters.include(bj_xz_office);
+        headquarters.include(hnSchool);
+        hn_jw_office=new Office("湖南教务办公室");
+        hn_xz_office=new Office("湖南行政办公室");
+        csTeachPoint=new TeachPoint("长沙教学点");
+        xtTeachPoint=new TeachPoint("湘潭教学点");
+        hnSchool.include(hn_jw_office);
+        hnSchool.include(hn_xz_office);
+        hnSchool.include(csTeachPoint);
+        hnSchool.include(xtTeachPoint);
+        cs_jw_office=new Office("长沙教务办公室");
+        cs_xz_office=new Office("长沙行政办公室");
+        csTeachPoint.include(cs_jw_office);
+        csTeachPoint.include(cs_xz_office);
+        xt_jw_office=new Office("湘潭教务办公室");
+        xt_xz_office=new Office("湘潭行政办公室");
+        xtTeachPoint.include(xt_jw_office);
+        xtTeachPoint.include(xt_xz_office);
 
-        file1 = new ImageFile("pic1.jpg");
-        file2 = new ImageFile("pic2.gif");
-        file3 = new TextFile("txt1.txt");
-        file4 = new TextFile("txt2.doc");
-        file5 = new TextFile("mp4_1.mp4");
-        folder2.add(file1);
-        folder2.add(file2);
-        folder3.add(file3);
-        folder3.add(file4);
-        folder4.add(file5);
-        folder1.add(folder2);
-        folder1.add(folder3);
-        folder1.add(folder4);
+//        传达信息
+        headquarters.message();
+        System.out.println("--------------");
+        xtTeachPoint.message();
+        System.out.println("--------------");
+        hnSchool.message();
 
-        folder1.killVirus();
     }
 }

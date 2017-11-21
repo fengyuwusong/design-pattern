@@ -1,4 +1,4 @@
-package composite;
+package composite1;
 
 /**
  * 图像文件类：叶子构件

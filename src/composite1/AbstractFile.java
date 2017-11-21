@@ -1,4 +1,4 @@
-package composite;
+package composite1;
 
 /**
  * 抽象文件类：抽象构件 透明模式

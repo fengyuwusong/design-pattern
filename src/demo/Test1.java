@@ -1,5 +1,7 @@
 package demo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -8,46 +10,43 @@ import java.util.Scanner;
  */
 public class Test1 {
     //todo 将i，j改成成员属性 将重复部分抽出来作为方法
-    public static void main(String[] args) {
+//    用于记录步进长度
+    private int i, j;
+    //    用于记录输入字符长度
+    private int len;
+    //    记录错误信息
+    private List<StringBuilder> errors = new ArrayList<>();
+
+    //    记录表达式单词集合
+    private ArrayList<Lexical> lexicals = new ArrayList<>();
+
+    //    记录输入字符
+    private char[] c = new char[255];
+    private String s;
+
+    //开始词法分析
+    private void lexicalAnalysis() {
         Scanner scanner = new Scanner(System.in);
         String pre = scanner.next();
         System.out.printf("输入:%s\n", pre);
-        //去空格
-        String s = pre.trim();
-        char[] c = new char[255];
+        s = pre.trim();
         c = s.toCharArray();
-
-        //用于记录步进位数
-        int j = 0;
-        int len = c.length;
-        for (int i = 0; i < len; i++) {
+        len = c.length;
+        for (i = 0; i < len; i++) {
             j = 0;
             if (c[i] == '0') {
                 i++;
                 j++;
                 if (len > i && c[i] >= '0' && c[i] <= '9') {
-                    System.out.printf("词法错误: %s..., 错误位置: %d, int类型不能以0打头\n", s.substring(i - j, i+1), i + 1);
-                    break;
+                    errors.add(new StringBuilder("词法错误: " + s.substring(i - j, i + 1) + "..., 错误位置: " + (i + 1) + ", int类型不能以0打头"));
                 } else if (len > i && c[i] == '.') {
-                    i++;
-                    j++;
-                    if (c[i] >= '0' && c[i] <= '9') {
-                        while (len > i + 1 && c[i] >= '0' && c[i] <= '9') {
-                            i++;
-                            j++;
-                        }
-                        if (c[i] == '.') {
-                            System.out.printf("词法错误: %s, 错误位置: %d, 浮点数 '.'后面不能再加.\n", s.substring(i - j, i + 1), i + 1);
-                            break;
-                        } else {
-                            System.out.printf("(8, %s, %f, double)\n", s.substring(i - j, i), std(s.substring(i - j, i)));
-                            i--;
-                        }
-                    } else {
-                        System.out.printf("词法错误: %s, 错误位置: %d, 浮点数 '.'后面不能立马连接非0-9的字符\n", s.substring(i - j, i + 1), i + 1);
-                    }
+                    floatAnalysis();
                 } else {
-                    System.out.printf("(5, %c, %d, int)\n", c[i - j], cti(c[i - j]));
+                    if (c[i] >= '1' && c[i] <= '9') {
+                        i++;
+                        j++;
+                    }
+                    lexicals.add(new Lexical<Integer>(5, String.valueOf(c[i - j]), cti(c[i - j]), "int"));
                     i--;
                 }
             } else if (c[i] >= '1' && c[i] <= '9') {
@@ -55,49 +54,60 @@ public class Test1 {
                     i++;
                     j++;
                 }
-                if(c[i]=='.'){
-                    i++;
-                    j++;
-                    if (c[i] >= '0' && c[i] <= '9') {
-                        while (len > i + 1 && c[i] >= '0' && c[i] <= '9') {
-                            i++;
-                            j++;
-                        }
-                        if (c[i] == '.') {
-                            System.out.printf("词法错误: %s, 错误位置: %d, 浮点数 '.'后面不能再加.\n", s.substring(i - j, i + 1), i + 1);
-                            break;
-                        } else {
-                            System.out.printf("(8, %s, %f, double)\n", s.substring(i - j, i), std(s.substring(i - j, i)));
-                            i--;
-                        }
-                    } else {
-                        System.out.printf("词法错误: %s, 错误位置: %d, 浮点数 '.'后面不能立马连接非0-9的字符\n", s.substring(i - j, i + 1), i + 1);
+                if (c[i] == '.') {
+                    floatAnalysis();
+                } else {
+                    if (c[i] >= '1' && c[i] <= '9') {
+                        i++;
+                        j++;
                     }
-                }else{
-                    System.out.printf("(5, %s, %d, int)\n", s.substring(i - j, i), sti(s.substring(i - j, i)));
+                    lexicals.add(new Lexical<Integer>(5, s.substring(i - j, i), sti(s.substring(i - j, i)), "int"));
                     i--;
                 }
             } else if (c[i] == '+') {
-                System.out.println("(1, +, NULL, NULL)");
+                lexicals.add(new Lexical<String>(1, "+", null, null));
             } else if (c[i] == '-') {
-                System.out.println("(2, -, NULL, NULL)");
+                lexicals.add(new Lexical<String>(2, "-", null, null));
             } else if (c[i] == '*') {
-                System.out.println("(3, *, NULL, NULL)");
+                lexicals.add(new Lexical<String>(3, "*", null, null));
             } else if (c[i] == '/') {
-                System.out.println("(4, /, NULL, NULL)");
+                lexicals.add(new Lexical<String>(4, "/", null, null));
             } else if (c[i] == '(') {
-                System.out.println("(6, (, NULL, NULL)");
+                lexicals.add(new Lexical<String>(6, "(", null, null));
             } else if (c[i] == ')') {
-                System.out.println("(7, ), NULL, NULL)");
+                lexicals.add(new Lexical<String>(7, ")", null, null));
             } else {
-                System.out.printf("词法错误: '%c', 错误位置: %d, 输入非法符号%c\n", c[i], i + 1, c[i]);
-                break;
+                errors.add(new StringBuilder("词法错误: " + c[i] + ", 错误位置: " + (i + 1) + ", 输入非法符号"));
             }
         }
     }
 
 
-//    public static
+    //    抽出判断小数点后的方法
+    private void floatAnalysis() {
+        i++;
+        j++;
+        if (len >= i + 1 && c[i] >= '0' && c[i] <= '9') {
+            while (len > i + 1 && c[i] >= '0' && c[i] <= '9') {
+                i++;
+                j++;
+            }
+            if (c[i] == '.') {
+                errors.add(new StringBuilder("词法错误: " + s.substring(i - j, i + 1) + ", 错误位置: " + (i + 1) + ", 浮点数 '.'后面不能再加."));
+            } else {
+                if (c[i] >= '0' && c[i] <= '9') {
+                    i++;
+                    j++;
+                }
+                lexicals.add(new Lexical<Double>(8, s.substring(i - j, i), std(s.substring(i - j, i)), "double"));
+                i--;
+            }
+        } else if (len > i + 1) {
+            errors.add(new StringBuilder("词法错误: " + s.substring(i - j, i + 1) + ", 错误位置: " + (i + 1) + ", 浮点数 '.'后面不能立马连接非0-9的字符"));
+        } else {
+            errors.add(new StringBuilder("词法错误: " + s.substring(i - j, i) + ", 错误位置: " + (i + 1) + ", 浮点数 '.'后面不能置空"));
+        }
+    }
 
 
     /**
@@ -107,7 +117,7 @@ public class Test1 {
      *
      * @return int 返回int类型
      */
-    private static int cti(char c) {
+    private int cti(char c) {
         return Integer.parseInt(String.valueOf(c));
     }
 
@@ -118,7 +128,7 @@ public class Test1 {
      *
      * @return double 返回double
      */
-    private static double std(String s) {
+    private double std(String s) {
         return Double.parseDouble(s);
     }
 
@@ -129,7 +139,21 @@ public class Test1 {
      *
      * @return int 返回int
      */
-    private static int sti(String s) {
+    private int sti(String s) {
         return Integer.parseInt(s);
+    }
+
+
+    public static void main(String[] args) {
+        Test1 test1 = new Test1();
+        test1.lexicalAnalysis();
+//        输出所有单词序列
+        for (Lexical l : test1.lexicals) {
+            System.out.printf("(%d, %s, %s, %s)\n", l.getTypeNum(), l.getLexical(), l.getValue(), l.getType());
+        }
+//        输出所有错误
+        for (StringBuilder e : test1.errors) {
+            System.out.println(e);
+        }
     }
 }

@@ -1,13 +1,14 @@
-package composite;
+package composite1;
 
 /**
- * 视频文件类：叶子构件
- * Created by fengyuwusong on 2017/11/8 14:50.
+ * 文本文件类：叶子构件
+ * Created by fengyuwusong on 2017/11/8 11:40.
  */
-public class VideoFile extends AbstractFile {
+public class TextFile extends AbstractFile {
     private String name;
 
-    public VideoFile(String name) {
+
+    public TextFile(String name) {
         this.name = name;
     }
 
@@ -30,6 +31,6 @@ public class VideoFile extends AbstractFile {
     @Override
     public void killVirus() {
         //模拟杀毒
-        System.out.println("-----对视频文件'" + name + "'进行杀毒");
+        System.out.println("---对文本文件'" + name + "'" + "进行杀毒");
     }
 }

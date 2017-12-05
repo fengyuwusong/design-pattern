@@ -1,6 +1,7 @@
 package demo;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,21 +12,21 @@ import java.util.Scanner;
 public class Test1 {
     //todo 将i，j改成成员属性 将重复部分抽出来作为方法
 //    用于记录步进长度
-    private int i, j;
+    int i, j;
     //    用于记录输入字符长度
-    private int len;
+    int len;
     //    记录错误信息
-    private List<StringBuilder> errors = new ArrayList<>();
+    List<StringBuilder> errors = new ArrayList<>();
 
     //    记录表达式单词集合
-    private ArrayList<Lexical> lexicals = new ArrayList<>();
+    LinkedList<Lexical> lexicals = new LinkedList<>();
 
     //    记录输入字符
-    private char[] c = new char[255];
-    private String s;
+    char[] c = new char[255];
+    String s;
 
     //开始词法分析
-    private void lexicalAnalysis() {
+    void lexicalAnalysis() {
         Scanner scanner = new Scanner(System.in);
         String pre = scanner.next();
         System.out.printf("输入:%s\n", pre);
